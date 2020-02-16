@@ -7,25 +7,18 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
 
-import Header from "./header"
+import { navigate } from "gatsby"
+import { Tabs } from "antd"
+import { Location } from "@reach/router"
+
 import "./layout.css"
 
-const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
+const { TabPane } = Tabs
 
+const Layout = ({ children }) => {
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
       <div
         style={{
           margin: `0 auto`,
@@ -34,11 +27,33 @@ const Layout = ({ children }) => {
         }}
       >
         <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
+        <Location>
+          {({ location: { pathname } }) => {
+            return (
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "20px",
+                  left: "0",
+                  width: "100%",
+                }}
+              >
+                <Tabs
+                  size="large"
+                  tabPosition="bottom"
+                  defaultActiveKey={pathname === "/login" ? "2" : "1"}
+                  onChange={key => {
+                    if (key === "2") navigate("/login")
+                    if (key === "1") navigate("/")
+                  }}
+                >
+                  <TabPane tab="Registro" key="1"></TabPane>
+                  <TabPane tab="Login" key="2"></TabPane>
+                </Tabs>
+              </div>
+            )
+          }}
+        </Location>
       </div>
     </>
   )

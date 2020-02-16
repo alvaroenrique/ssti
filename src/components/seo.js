@@ -34,6 +34,13 @@ function SEO({ description, lang, meta, title }) {
       }}
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
+      link={[
+        {
+          rel: "stylesheet",
+          href:
+            "https://fonts.googleapis.com/css?family=Hammersmith+One&display=swap",
+        },
+      ]}
       meta={[
         {
           name: `description`,
